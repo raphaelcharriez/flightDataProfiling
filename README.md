@@ -32,6 +32,7 @@ Let's get 2Years worth of data from https://opensky-network.org/
 * For our purpose let's just isolate the most stable phase of the flight: the cruise phase 
 
 ```
+### With SPARK:  ### 
 series = series.withColumn(
        'cruise_point',
 (F.col('infered_vertical_speed') < 300) & (F.col('infered_vertical_speed') > -420) & (F.col('altitude_feet') > 25000) , 1).otherwise(0)
