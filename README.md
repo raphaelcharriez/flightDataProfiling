@@ -52,3 +52,16 @@ series = series.join(timestamp_cruise, on=['flight_id'], how='left')
 
 ```
 
+* Now we have enough data to compute a preliminary statistics: 
+ ** Average altitude during cruise phase
+ ** Average altitude during the early cruise phase (when weight of the aircraft should be maximum because no fuel burn yet) 
+
+# 4/ Results
+
+The Corona Virus crisis was a good time to test the index, since airline have been publlicly flying near empty aircrafts.  Let's see if we can capture that with our index.
+
+![Early Result](https://github.com/raphaelcharriez/flightDataProfiling/blob/master/Screen%20Shot%202020-03-31%20at%209.05.11%20PM.png?raw=true)
+
+Very Encouraging Early Results, we can see the average early cruise altitude increasing by thousands of feet as aircrafts fly empty. 
+
+Next Step: train historical Data ny airline and compare with Airline's financial reporting.
