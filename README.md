@@ -33,14 +33,21 @@ Let's get 2Years worth of data from https://opensky-network.org/
 
 ```
 ### With SPARK:  ### 
+
+from pyrspark.sql import functions as F
+
+stable_vertical_speed = (F.col('infered_vertical_speed') < 300) & (F.col('infered_vertical_speed') > -420)
+sufficient_altitude = (F.col('altitude_feet') > 25000)
+
 series = series.withColumn(
        'cruise_point',
-(F.col('infered_vertical_speed') < 300) & (F.col('infered_vertical_speed') > -420) & (F.col('altitude_feet') > 25000) , 1).otherwise(0)
+       F.whem(stable_vertical_speed & sufficient_altitude, 1).otherwise(0)
 )
+
 timestamp_cruise = series.groupBy(F.col('flight_id')).agg(
        F.min(F.when(F.col('cruise_point')==1, F.col('timestamp'))).alias('start_cruise'),
        F.max(F.when(F.col('cruise_point')==1, F.col('timestamp'))).alias('end_cruise')
-   )
+)
 series = series.join(timestamp_cruise, on=['flight_id'], how='left')
 
 ```
