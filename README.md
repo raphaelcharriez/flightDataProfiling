@@ -30,4 +30,17 @@ Let's get 2Years worth of data from https://opensky-network.org/
   ** Enrich with aircraft metadata (operator, type of aircraft ect) 
   ** Enrich with flight data (using open flight scheduling data joined on aircraft msn + time with the position recorded time
   
-# 3/ 
+# 3/ Analytics
+
+* Let's focus on the cruise phase
+![A flight](https://github.com/raphaelcharriez/flightDataProfiling/blob/master/flight.png)
+* We can see different flight phases, taxi out, take off, climbing, cruising, descent, landing, taxi in.
+* Most phases are too chaotic, for our purpose let's just isolate the cruise phase 
+
+```
+series = series.withColumn(
+       'cruise_point',
+(F.col('infered_vertical_speed') < 300) & (F.col('infered_vertical_speed') > -420) & (F.col('altitude_feet') > 25000) , 1).otherwise(0)
+)
+```
+
